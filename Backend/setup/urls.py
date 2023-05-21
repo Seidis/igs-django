@@ -21,5 +21,5 @@ from hr.urls import urlpatterns as hr_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include(hr_urls)),
+    path("", include(hr_urls)),
 ]
