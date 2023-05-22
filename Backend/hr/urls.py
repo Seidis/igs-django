@@ -6,7 +6,6 @@ from hr.views import (
     DepartmentViewSet,
     EmployeeDepartmentViewSet,
     index,
-    employee,
 )
 
 router = routers.DefaultRouter()
@@ -15,7 +14,6 @@ router.register(r"departments", DepartmentViewSet, basename="department")
 
 urlpatterns = [
     path("", index, name="base"),
-    path("employees/<int:employee_id>/", employee, name="employee"),
     path("api/", include(router.urls)),
     path(
         "api/departments/<int:department_id>/employees/",

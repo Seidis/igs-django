@@ -2,7 +2,7 @@ import json
 import requests
 from rest_framework import viewsets, generics
 from django.shortcuts import render
-from django.db.models import Q
+
 
 from hr.models import Employee, Department
 
@@ -16,6 +16,8 @@ from hr.serializers import (
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    search_fields = ["name", "email", "department__name"]
+    ordering_fields = ["id", "name", "email", "department__name"]
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
@@ -31,25 +33,40 @@ class EmployeeDepartmentViewSet(generics.ListAPIView):
 
 
 def index(request):
-    response = requests.get("http://localhost:8000/api/employees/")
-    employees = json.loads(response.text)
+    url = "http://localhost:8000/api/employees/?"
 
     if "search" in request.GET:
         search = request.GET["search"]
         if search:
-            filtered_employees = []
-            for employee in employees:
-                # Excluindo o campo "id" da validação
-                values = [
-                    value.lower() for key, value in employee.items() if key != "id"
-                ]
-                if any(search.lower() in value for value in values):
-                    filtered_employees.append(employee)
-            employees = filtered_employees
+            url += "search=" + search
 
-    return render(request, "hr/employees_table.html", {"employees": employees})
+    if "sort" in request.GET:
+        sort = request.GET["sort"]
+        if sort:
+            url += "&ordering=" + sort
+    else:
+        url += "&ordering=id"
 
+    if "page" in request.GET:
+        page = request.GET["page"]
+        if page:
+            url += "&page=" + page
 
-def employee(request, employee_id):
-    employee = requests.get(f"http://localhost:8000/api/employees/" + str(employee_id))
-    return render(request, "hr/employee.html", {"employee": employee.json()})
+    response = requests.get(url)
+    response_json = response.json()
+
+    total_pages = response_json["count"] // 10
+    page_number = 1
+    if response_json["next"]:
+        page_number = int(response_json["next"].split("page=")[1]) - 1
+    if response_json["previous"] and not response_json["next"]:
+        page_number = int(response_json["previous"].split("page=")[1]) + 1
+
+    response_json["page_number"] = page_number
+    response_json["total_pages"] = total_pages
+
+    return render(
+        request,
+        "hr/employees_table.html",
+        {"employees": response_json},
+    )
