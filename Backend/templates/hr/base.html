@@ -9,6 +9,7 @@
     {% bootstrap_css %} {% bootstrap_javascript %}
   </head>
   <body>
+    <header>{% include 'hr/partials/_navbar.html' %}</header>
     <div class="container">
       <main>{% block content %} {% endblock %}</main>
     </div>

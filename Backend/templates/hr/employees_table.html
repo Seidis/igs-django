@@ -22,7 +22,7 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th class="col-md-1">
+          <th class="col-md-1 text-center">
             <a
               href="?sort=id{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
               >ID</a
@@ -49,14 +49,18 @@
         </tr>
       </thead>
       <tbody class="employees">
-        {% for employee in employees.results %}
+        {% if employees.results %} {% for employee in employees.results %}
         <tr>
-          <td>{{ employee.id }}</td>
+          <td class="text-center">{{ employee.id }}</td>
           <td>{{ employee.name }}</td>
           <td>{{ employee.email }}</td>
           <td>{{ employee.department }}</td>
         </tr>
-        {% endfor %}
+        {% endfor %} {% else %}
+        <tr>
+          <td colspan="4" class="text-center">Nenhum funcionário encontrado</td>
+        </tr>
+        {% endif %}
       </tbody>
     </table>
     <div class="pagination-container">
@@ -92,4 +96,5 @@
     </div>
   </div>
 </section>
+<!-- prettier-ignore -->
 {% endblock content %}
