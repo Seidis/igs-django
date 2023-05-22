@@ -3,7 +3,7 @@ from hr.models import Employee, Department
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    department = serializers.ReadOnlyField(source="department.name")
+    department_name = serializers.ReadOnlyField(source="department.name")
 
     class Meta:
         model = Employee
@@ -17,7 +17,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 
 class EmployeeDepartmentSerializer(serializers.ModelSerializer):
-    department = serializers.ReadOnlyField(source="department.name")
+    department_name = serializers.ReadOnlyField(source="department.name")
 
     class Meta:
         model = Employee
