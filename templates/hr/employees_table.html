@@ -25,13 +25,13 @@
           <th class="col-md-1 text-center">
             <a
               href="?sort=id{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
-              >ID</a
+              >#</a
             >
           </th>
           <th class="col-md-4">
             <a
               href="?sort=name{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
-              >Name</a
+              >Nome</a
             >
           </th>
           <th class="col-md-4">
@@ -43,7 +43,7 @@
           <th class="col-md-3">
             <a
               href="?sort=department{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
-              >Department</a
+              >Departamento</a
             >
           </th>
         </tr>
