@@ -1,12 +1,12 @@
 {% extends 'hr/base.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'hr/styles/employees_table.css' %}">
+<link rel="stylesheet" href="{% static '/styles/employees_table.css' %}">
 <section>
-    <div class="filter">
-        <form class="row">
+    <div class="filter" >
+        <form class="row" action="{% url 'base' %}">
             <div class="form-group col-md-11">
-                <input type="text" class="form-control" id="search" placeholder="Digite para filtrar">
+                <input type="text" class="form-control" id="search" name="search" placeholder="Digite para filtrar">
             </div>
             <div class="form-group col-md-1">
                 <button type="submit" class="btn btn-primary">Filtrar</button>
@@ -18,9 +18,9 @@
           <thead>
             <tr>
               <th class="col-md-1">#</th>
-              <th class="col-md-1">Name</th>
-              <th class="col-md-1">Email</th>
-              <th class="col-md-1">Department</th>
+              <th class="col-md-4">Name</th>
+              <th class="col-md-4">Email</th>
+              <th class="col-md-3">Department</th>
             </tr>
           </thead>
           <tbody class="employees">

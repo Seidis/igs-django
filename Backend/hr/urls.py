@@ -14,7 +14,7 @@ router.register(r"employees", EmployeeViewSet, basename="employee")
 router.register(r"departments", DepartmentViewSet, basename="department")
 
 urlpatterns = [
-    path("", index, name="index"),
+    path("", index, name="base"),
     path("employees/<int:employee_id>/", employee, name="employee"),
     path("api/", include(router.urls)),
     path(

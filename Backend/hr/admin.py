@@ -6,7 +6,7 @@ from hr.models import Employee, Department
 class Employees(admin.ModelAdmin):
     list_display = ("id", "name", "department")
     list_display_links = ("id", "name")
-    search_fields = ("name", "department")
+    search_fields = ("name", "email", "department")
     list_per_page = 10
 
 
