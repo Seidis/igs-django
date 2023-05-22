@@ -1,0 +1,100 @@
+{% extends 'hr/base.html' %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static '/styles/employees_table.css' %}" />
+<section>
+  <div class="filter">
+    <form class="row" action="{% url 'base' %}">
+      <div class="form-group col-md-11">
+        <input
+          type="text"
+          class="form-control"
+          id="search"
+          name="search"
+          placeholder="Digite para filtrar"
+          value="{{ request.GET.search }}"
+        />
+      </div>
+      <div class="form-group col-md-1">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+      </div>
+    </form>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th class="col-md-1 text-center">
+            <a
+              href="?sort=id{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >ID</a
+            >
+          </th>
+          <th class="col-md-4">
+            <a
+              href="?sort=name{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >Name</a
+            >
+          </th>
+          <th class="col-md-4">
+            <a
+              href="?sort=email{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >Email</a
+            >
+          </th>
+          <th class="col-md-3">
+            <a
+              href="?sort=department{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >Department</a
+            >
+          </th>
+        </tr>
+      </thead>
+      <tbody class="employees">
+        {% if employees.results %} {% for employee in employees.results %}
+        <tr>
+          <td class="text-center">{{ employee.id }}</td>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.department }}</td>
+        </tr>
+        {% endfor %} {% else %}
+        <tr>
+          <td colspan="4" class="text-center">Nenhum funcionário encontrado</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    <div class="pagination-container">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          {% if employees.previous %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ employees.page_number|add:-1 }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
+            >
+              Anterior
+            </a>
+          </li>
+          {% endif %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#">
+              Página {{ employees.page_number }} de {{ employees.total_pages }}
+            </a>
+          </li>
+          {% if employees.next %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ employees.page_number|add:1 }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
+            >
+              Próxima
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+<!-- prettier-ignore -->
+{% endblock content %}
